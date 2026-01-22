@@ -138,20 +138,20 @@ server <- function(input, output, session) {
   # ---- Metadata ---- #
   ######################
   
-  # Create a nested list to store all possible metavalues in each col
-  nested_list_metadata <- reactive({
-    
-    # Store names of metadata present in the SCE object
-    colnames_metadata_list <- colnames(colData(sce_obj()))
-
-    # Create the list of list with names according colnames
-    setNames(
-      lapply(colnames_metadata_list, function(col) {
-        unique(colData(sce_obj())[[col]])
-      }),
-      colnames_metadata_list
-    )
-  })
+  # # Create a nested list to store all possible metavalues in each col
+  # nested_list_metadata <- reactive({
+  #   
+  #   # Store names of metadata present in the SCE object
+  #   colnames_metadata_list <- colnames(colData(sce_obj()))
+  # 
+  #   # Create the list of list with names according colnames
+  #   setNames(
+  #     lapply(colnames_metadata_list, function(col) {
+  #       unique(colData(sce_obj())[[col]])
+  #     }),
+  #     colnames_metadata_list
+  #   )
+  # })
   
   
   

@@ -41,11 +41,11 @@ ui <- fluidPage(
                 step = 0.1
             ),
             
-            selectInput(
-              "metadata",
-              "Choose a metadata to display",
-              nested_list_metadata
-            ),
+            # selectInput(
+            #   "metadata",
+            #   "Choose a metadata to display",
+            #   nested_list_metadata
+            # ),
 
             # Button to download the PCA plot
             downloadButton("download_plot", "Download Plot")
