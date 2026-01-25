@@ -19,7 +19,37 @@ server <- function(input, output, session) {
     )
     
     sce
+
   })
+
+
+  
+  observeEvent(sce_obj(), {
+    showNotification(
+      "Data successfully loaded!",
+      type = "message",
+      duration = 1
+    )
+  })
+  
+  # observeEvent(sce_obj(), {
+  #   shinyalert(
+  #     title = "Information",
+  #     text  = "Data successfully loaded!",
+  #     type  = "info",
+  #     timer = 1000,
+  #     showConfirmButton = FALSE
+  #   )
+  # })
+  
+  
+  # observeEvent(input$sce_rds, {
+  #   withProgress(message = "Loading data...", {
+  #     sce_obj()
+  #   })
+  # })
+  
+  # runjs("toastr.success('Data successfully loaded!')")
 
 
   #############################
@@ -38,6 +68,10 @@ server <- function(input, output, session) {
     )
   })
   
+  # observeEvent(, {
+  #   showNotification("Assay successfully loaded!", type = "message")
+  # })
+  
   
   #################################
   # ---- Embedding selection ---- #
@@ -54,6 +88,9 @@ server <- function(input, output, session) {
       selected = reducedDimNames(sce_obj())[1]
     )
   })
+  
+  
+  
 
   ###############################
   # ---- Feature selection ---- #
@@ -241,17 +278,6 @@ server <- function(input, output, session) {
     
     featureplot_obj <- reactive({
       
-      validate(
-        need(
-          input$embedding %in% reducedDimNames(sce_obj()),
-          paste(
-            "embedding",
-            input$embedding,
-            "not found in object. Ask bioinfo to compute it."
-          )
-        )
-      )
-      
       df <- df_plot()
       
       if (input$feature == "Expression") {
@@ -342,7 +368,19 @@ server <- function(input, output, session) {
     
     req(sce_obj(), input$genes, input$assay, input$embedding)
     
+    validate(
+      need(
+        input$embedding %in% reducedDimNames(sce_obj()),
+        paste(
+          "embedding",
+          input$embedding,
+          "not found in object. Ask bioinfo to compute it."
+        )
+      )
+    )
+    
     featureplot_obj()
+    
   })
   
 
@@ -360,30 +398,5 @@ server <- function(input, output, session) {
       dev.off()
     }
   )
-
-
-  
-  
-  
-  
-  
-  
-  
-  
-  # nested_list_metadata <- reactive({
-  #   
-  #   # Store names of metadata present in the SCE object
-  #   colnames_metadata_list <- colnames(colData(sce_obj()))
-  # 
-  #   # Create the list of list with names according colnames
-  #   setNames(
-  #     lapply(colnames_metadata_list, function(col) {
-  #       unique(colData(sce_obj())[[col]])
-  #     }),
-  #     colnames_metadata_list
-  #   )
-  # })
-  
-  
   
 }

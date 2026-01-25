@@ -10,12 +10,17 @@ library(ggplot2)
 library(SingleCellExperiment)
 library(shinycssloaders)
 library(dplyr)
+library(shinyalert)
+library(shinyFeedback)
+library(shinyjs)
+
 
 ###########
 # Options #
 ###########
 
 options(shiny.maxRequestSize = 100 * 1024^2)  # 100 MB
+useShinyjs()
 
 ###################################################################################"
 # ---- User Interface ---- #
