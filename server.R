@@ -393,12 +393,23 @@ server <- function(input, output, session) {
   # ---- Download plot ---- #
   ###########################
   
-  output$download_plot <- downloadHandler(
+  output$download_plot_png <- downloadHandler(
     filename = function() {
       paste("FeaturePlot_SCE_", Sys.Date(), "_", format(Sys.time(), "%X"), ".png", sep = "") # To improve to dynamically change the name (eg gene name or whatever)
     },
     content = function(file) {
       png(file, width = 1200, height = 800, res = 150)
+      print(featureplot_obj())
+      dev.off()
+    }
+  )
+  
+  output$download_plot_pdf <- downloadHandler(
+    filename = function() {
+      paste("FeaturePlot_SCE_", Sys.Date(), "_", format(Sys.time(), "%X"), ".pdf", sep = "") # To improve to dynamically change the name (eg gene name or whatever)
+    },
+    content = function(file) {
+      pdf(file, width = 1200, height = 800)
       print(featureplot_obj())
       dev.off()
     }

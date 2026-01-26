@@ -30,13 +30,11 @@ useShinyjs()
 
 ui <- fluidPage(
   
-  
   ###################
   # ---- Title ---- #
   ###################
   
-  titlePanel("Single-cellExperiment FeaturePlot Explorer"),
-  
+  titlePanel("CellFIE :Cells & Features Interactive Explorer"),
   
   #####################
   # ---- Sidebar ---- #
@@ -137,13 +135,14 @@ ui <- fluidPage(
       
       # Button to download the PCA plot
       downloadButton(
-        "download_plot", 
-        "Download Plot"
+        "download_plot_png", 
+        "Download PNG"
+      ),
+      
+      downloadButton(
+        "download_plot_pdf", 
+        "Download PDF"
       )
-      
-      
-      
-      
       
     ),
     
