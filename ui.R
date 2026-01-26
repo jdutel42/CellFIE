@@ -16,13 +16,15 @@ library(dplyr)
 library(shinyalert)
 library(shinyFeedback)
 library(shinyjs)
+# BiocManager::install("qs")
+library(qs2)
 
 
 ###########
 # Options #
 ###########
 
-options(shiny.maxRequestSize = 100 * 1024^2)  # 100 MB
+options(shiny.maxRequestSize = 5 * 1024^3)  # 5 Go
 useShinyjs()
 
 ###################################################################################"
@@ -49,9 +51,11 @@ ui <- fluidPage(
       
       fileInput(
         "sce_rds",
-        "1. Upload data (SCE object .rds)",
-        accept = ".rds"
+        "1. Upload SingleCellExperiment RDS file",
+        accept = c(".rds", ".RDS")
       ),
+      
+      # uiOutput("qs_ui"),
       
       ###################
       # ---- Assay ---- #

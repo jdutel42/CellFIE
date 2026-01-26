@@ -11,24 +11,20 @@ server <- function(input, output, session) {
   #############################
   
   sce_obj <- reactive({
-    
+
     req(input$sce_rds)
-    
+
     sce <- readRDS(input$sce_rds$datapath)
-    
+
     validate(
       need(
         inherits(sce, "SingleCellExperiment"),
         "The uploaded file is not a SingleCellExperiment object"
       )
     )
-    
     sce
-
   })
 
-
-  
   observeEvent(sce_obj(), {
     showNotification(
       "Data successfully loaded!",
@@ -36,6 +32,28 @@ server <- function(input, output, session) {
       duration = 1
     )
   })
+  
+  
+  
+  
+  
+  
+  
+  # output$qs_ui <- renderUI({
+  #   fileInput(
+  #     "qs_file",
+  #     "1. Indicate path to data (.qs file)",
+  #     accept = c(".qs")
+  #   )
+  # })
+  # 
+  # observeEvent(input$qs_file, {
+  #   file_path <- input$qs_file$datapath
+  #   # Get data from qs file path
+  #   data <- qs_read(file_path)
+  # })
+  
+  
   
   # observeEvent(sce_obj(), {
   #   shinyalert(
@@ -68,8 +86,8 @@ server <- function(input, output, session) {
     selectInput(
       "assay",
       "2. Which assay ?",
-      choices = assayNames(sce_obj()),
-      selected = assayNames(sce_obj())[1]
+      # selected = assayNames(sce_obj())[1],
+      choices = assayNames(sce_obj())
     )
   })
   
@@ -89,8 +107,8 @@ server <- function(input, output, session) {
     selectInput(
       "embedding",
       "3. Which embedding ?",
-      choices = reducedDimNames(sce_obj()),
-      selected = reducedDimNames(sce_obj())[1]
+      # selected = reducedDimNames(sce_obj())[1],
+      choices = reducedDimNames(sce_obj())
     )
   })
   
@@ -109,7 +127,7 @@ server <- function(input, output, session) {
       "feature",
       "4. Which features ?",
       choices = c("Expression", colnames(colData(sce_obj()))),
-      selected = "Expression"
+      # selected = "Expression"
     )
   })
 
@@ -119,7 +137,7 @@ server <- function(input, output, session) {
   ############################
 
   output$gene_ui <- renderUI({
-    
+
     req(input$feature == "Expression")
     
     genes <- rownames(assay(sce_obj(), input$assay))
@@ -135,6 +153,9 @@ server <- function(input, output, session) {
       )
     )
   })
+  
+
+  
   
   
   ######################
