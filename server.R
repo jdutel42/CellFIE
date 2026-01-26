@@ -1,5 +1,10 @@
 server <- function(input, output, session) {
 
+  ##########################
+  # ---- Set Work Dir ---- #
+  ##########################
+  
+  setwd(dir = "~/Documents/Project/Heimdall/")
   
   #############################
   # ---- Load SCE object ---- #

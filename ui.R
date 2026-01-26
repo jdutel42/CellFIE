@@ -10,6 +10,9 @@ library(ggplot2)
 library(SingleCellExperiment)
 library(shinycssloaders)
 library(dplyr)
+# BiocManager::install("shinyjs")
+# BiocManager::install("shinyFeedback")
+# BiocManager::install("shinyalert")
 library(shinyalert)
 library(shinyFeedback)
 library(shinyjs)
@@ -158,3 +161,31 @@ ui <- fluidPage(
     )
   )
 )
+
+
+
+
+
+
+
+
+#########################################################################################
+
+# How to access the Shiny interface:
+#
+# 1. On the machine hosting the Shiny application, run the following command in R:
+#
+#    runApp(
+#      appDir = "~/Documents/Project/Heimdall",
+#      host = "0.0.0.0",
+#      port = 3838,
+#      launch.browser = FALSE
+#    )
+#
+# 2. From any other machine on the same network, open a web browser and navigate to:
+#
+#    http://10.31.208.117:3838
+#
+#    (Note: the IP address corresponds to the current host machine and may change.)
+
+#########################################################################################
