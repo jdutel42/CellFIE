@@ -44,12 +44,118 @@ ui <- page_fillable(
   # ---- NavTab ---- #
   ####################
   
-  navset_card_tab( 
+  navset_card_tab(
     
-    nav_panel("FeaturePlot", 
+    navset_card_tab(
+      
+      # =========================
+      # ---- Home / Welcome ---- #
+      # =========================
+      
+      nav_panel(
+        "Home",
+        
+        layout_column_wrap(
+          width = 1/2,
+          
+          # ---- Welcome & Overview ----
+          card(
+            card_header("Welcome to CellFIE"),
+            p(
+              "CellFIE (Cells & Features Interactive Explorer) is an interactive Shiny application ",
+              "designed for the exploration and visualization of single-cell data ",
+              "based on SingleCellExperiment objects."
+            ),
+            tags$ul(
+              tags$li("Load and inspect SingleCellExperiment datasets"),
+              tags$li("Explore embeddings and features interactively"),
+              tags$li("Visualize gene expression and metadata"),
+              tags$li("Export publication-ready figures")
+            ),
+            hr(),
+            h5("Application workflow"),
+            tags$ol(
+              tags$li("Upload your SingleCellExperiment object"),
+              tags$li("Select assay and dimensional reduction"),
+              tags$li("Explore features, genes and cell populations"),
+              tags$li("Download figures")
+            )
+          ),
+          
+          # ---- Data Loading ----
+          card(
+            card_header("Load your data"),
+            
+            ########################
+            # ---- Input file ---- #
+            ########################
+            
+            fileInput(
+              "sce_rds",
+              "1. Upload SingleCellExperiment RDS file",
+              accept = c(".rds", ".RDS")
+            ),
+            
+            # uiOutput("qs_ui"),  
+            
+            p(
+              "The uploaded object must be a valid ",
+              tags$code("SingleCellExperiment"),
+              " containing assays, reduced dimensions, and metadata."
+            ),
+            
+            # shinyFeedback::feedbackDanger(
+            #   "sce_rds",
+            #   show = FALSE,
+            #   text = "Invalid or unsupported object."
+            # ),
+            
+          # ---- Navigation / Index ----
+          card(
+            card_header("Explore the application"),
+            
+            p("Once your data is loaded, navigate to the following sections:"),
+            
+            tags$ul(
+              tags$li(
+                tags$b("FeaturePlot"), ": visualize gene or feature expression on embeddings"
+              ),
+              tags$li(
+                tags$b("Cell Explorer"), ": explore cell-level metadata and annotations"
+              )
+            ),
+            
+            p(
+              "Use the navigation tabs above to access each module."
+            )
+          )
+        )
+      ),
+      
+    #   # ======================
+    #   # ---- FeaturePlot ---- #
+    #   # ======================
+    #   
+    #   nav_panel(
+    #     "FeaturePlot",
+    #     "FeaturePlot UI here"
+    #   ),
+    #   
+    #   # =========================
+    #   # ---- Cell Explorer ---- #
+    #   # =========================
+    #   
+    #   nav_panel(
+    #     "Cell Explorer",
+    #     "Cell Explorer UI here"
+    #   )
+    ),
+    
     #############################
     # ---- FeaturePlot Tab ---- #
     #############################
+    
+    nav_panel("FeaturePlot", 
     
       #####################
       # ---- Sidebar ---- #
@@ -57,18 +163,6 @@ ui <- page_fillable(
       
       sidebarLayout(
         sidebarPanel(
-          
-          ########################
-          # ---- Input file ---- #
-          ########################
-          
-          fileInput(
-            "sce_rds",
-            "1. Upload SingleCellExperiment RDS file",
-            accept = c(".rds", ".RDS")
-          ),
-          
-          # uiOutput("qs_ui"),
           
           ###################
           # ---- Assay ---- #
@@ -196,6 +290,7 @@ ui <- page_fillable(
 
   
 
+)
 )
 
 
