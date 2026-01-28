@@ -1,30 +1,29 @@
 server <- function(input, output, session) {
 
-  ##########################
-  # ---- Set Work Dir ---- #
-  ##########################
-  
-  setwd(dir = "~/Documents/Project/Heimdall/")
   
   #############################
   # ---- Load SCE object ---- #
   #############################
   
   sce_obj <- reactive({
-
+    
     req(input$sce_rds)
-
+    
     sce <- readRDS(input$sce_rds$datapath)
-
+    
     validate(
       need(
         inherits(sce, "SingleCellExperiment"),
         "The uploaded file is not a SingleCellExperiment object"
       )
     )
+    
     sce
+
   })
 
+
+  
   observeEvent(sce_obj(), {
     showNotification(
       "Data successfully loaded!",
@@ -32,28 +31,6 @@ server <- function(input, output, session) {
       duration = 1
     )
   })
-  
-  
-  
-  
-  
-  
-  
-  # output$qs_ui <- renderUI({
-  #   fileInput(
-  #     "qs_file",
-  #     "1. Indicate path to data (.qs file)",
-  #     accept = c(".qs")
-  #   )
-  # })
-  # 
-  # observeEvent(input$qs_file, {
-  #   file_path <- input$qs_file$datapath
-  #   # Get data from qs file path
-  #   data <- qs_read(file_path)
-  # })
-  
-  
   
   # observeEvent(sce_obj(), {
   #   shinyalert(
@@ -86,8 +63,8 @@ server <- function(input, output, session) {
     selectInput(
       "assay",
       "2. Which assay ?",
-      # selected = assayNames(sce_obj())[1],
-      choices = assayNames(sce_obj())
+      choices = assayNames(sce_obj()),
+      selected = assayNames(sce_obj())[1]
     )
   })
   
@@ -107,8 +84,8 @@ server <- function(input, output, session) {
     selectInput(
       "embedding",
       "3. Which embedding ?",
-      # selected = reducedDimNames(sce_obj())[1],
-      choices = reducedDimNames(sce_obj())
+      choices = reducedDimNames(sce_obj()),
+      selected = reducedDimNames(sce_obj())[1]
     )
   })
   
@@ -127,7 +104,7 @@ server <- function(input, output, session) {
       "feature",
       "4. Which features ?",
       choices = c("Expression", colnames(colData(sce_obj()))),
-      # selected = "Expression"
+      selected = "Expression"
     )
   })
 
@@ -137,7 +114,7 @@ server <- function(input, output, session) {
   ############################
 
   output$gene_ui <- renderUI({
-
+    
     req(input$feature == "Expression")
     
     genes <- rownames(assay(sce_obj(), input$assay))
@@ -153,9 +130,6 @@ server <- function(input, output, session) {
       )
     )
   })
-  
-
-  
   
   
   ######################
@@ -414,23 +388,12 @@ server <- function(input, output, session) {
   # ---- Download plot ---- #
   ###########################
   
-  output$download_plot_png <- downloadHandler(
+  output$download_plot <- downloadHandler(
     filename = function() {
       paste("FeaturePlot_SCE_", Sys.Date(), "_", format(Sys.time(), "%X"), ".png", sep = "") # To improve to dynamically change the name (eg gene name or whatever)
     },
     content = function(file) {
       png(file, width = 1200, height = 800, res = 150)
-      print(featureplot_obj())
-      dev.off()
-    }
-  )
-  
-  output$download_plot_pdf <- downloadHandler(
-    filename = function() {
-      paste("FeaturePlot_SCE_", Sys.Date(), "_", format(Sys.time(), "%X"), ".pdf", sep = "") # To improve to dynamically change the name (eg gene name or whatever)
-    },
-    content = function(file) {
-      pdf(file, width = 1200, height = 800)
       print(featureplot_obj())
       dev.off()
     }
